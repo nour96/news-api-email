@@ -11,6 +11,6 @@ content = request.json()
 
 for article in content["articles"]:
     print(article["title"])
-    print(article["discription"])
+    print(article["description"])
 
 
