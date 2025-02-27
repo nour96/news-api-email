@@ -1,18 +1,23 @@
 import requests, smtplib, ssl
 
 api_key = "ad5ff7abc3c04002aeb98b1c5dfd81c1"
+topic = "tesla"
 url = (
-    "https://newsapi.org/v2/everything?q=tesla&"
-    "from=2025-01-27&sortBy=publishedAt&apiKey="
+    "https://newsapi.org/v2/everything?"
+    f"q={topic}&"
+    "sortBy=publishedAt&apiKey="
     "ad5ff7abc3c04002aeb98b1c5dfd81c1"
+    "&language=en"
 )
 request = requests.get(url)
 content = request.json()
 
 body = " "
-for article in content["articles"]:
+for article in content["articles"][:20]:
     if article["title"] and article["description"] is not None:
-        body = body + article["title"] + "\n" + article["description"] + 2 * "\n"
+        body = "Subject: Today's news" \
+            +  "\n" + body + article["title"] + "\n" + article["description"]+ "\n" \
+            + article["url"] + 2 * "\n"
     
 
 def send_email(message):
